@@ -1,5 +1,6 @@
 package ma.ensat.property_management.auth;
 
+import ma.ensat.property_management.auth.RegisterRequest;
 import lombok.RequiredArgsConstructor;
 import ma.ensat.property_management.Config.JwtService;
 import ma.ensat.property_management.Entities.Role;
@@ -21,12 +22,12 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
 
     public AuthenticationResponse register(RegisterRequest request) {
-        var user = ma.ensat.property_management.Entities.User.builder()
+        var user = User.builder()
                 .firstname(request.getFirstname())
                 .lastname(request.getLastname())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role(Role.USER)
+                .role(Role.USER) // NOt Me : role(request.getRole())
                 .build();
         repository.save(user);
         var jwtToken = jwtService.generateToken(user);
@@ -42,6 +43,10 @@ public class AuthenticationService {
                          request.getPassword()
                  )
          );
-         return null;
-    }
+        var user = repository.findByEmail(request.getEmail())
+                .orElseThrow();
+        var jwtToken = jwtService.generateToken(user);
+        return AuthenticationResponse.builder()
+                .token(jwtToken)
+                .build();    }
 }

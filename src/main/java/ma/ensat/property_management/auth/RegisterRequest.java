@@ -1,11 +1,8 @@
 package ma.ensat.property_management.auth;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
+//@Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -18,5 +15,21 @@ public class RegisterRequest {
 
     public String getFirstname() {
         return firstname;
+    }
+//    public void setFirstname(String firstname) {
+//        this.firstname = firstname;
+//    }
+    public String getLastname() {
+        return lastname;
+    }
+
+    // Getter for email (added missing getter)
+    public String getEmail() {
+        return email;
+    }
+
+    // Getter for password (if needed, add it too)
+    public String getPassword() {
+        return password;
     }
 }
